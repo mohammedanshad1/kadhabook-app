@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:kadhabook/constants/app_typography.dart';
 import 'package:kadhabook/model/model.dart';
 import 'package:kadhabook/view/login_view.dart';
 import 'package:kadhabook/viewmodel/login_viewmodel.dart';
@@ -65,7 +66,7 @@ class _TransactionAddingViewState extends State<TransactionAddingView> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Enter $type Amount'),
+          title: Text('Enter $type Amount', style: AppTypography.outfitMedium),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -102,7 +103,8 @@ class _TransactionAddingViewState extends State<TransactionAddingView> {
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text("Please enter a valid amount"),
+                      content: Text("Please enter a valid amount",
+                          style: AppTypography.outfitRegular),
                       backgroundColor: Colors.red,
                     ),
                   );
@@ -123,7 +125,9 @@ class _TransactionAddingViewState extends State<TransactionAddingView> {
     final loginViewModel = Provider.of<LoginViewModel>(context);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Home')),
+      appBar: AppBar(
+        title: const Text('Home', style: AppTypography.outfitBold),
+      ),
       drawer: Drawer(
         backgroundColor: Theme.of(context).colorScheme.surface,
         child: Column(
@@ -148,9 +152,8 @@ class _TransactionAddingViewState extends State<TransactionAddingView> {
                     const SizedBox(height: 10),
                     Text(
                       widget.userId,
-                      style: const TextStyle(
+                      style: AppTypography.outfitRegular.copyWith(
                         color: Colors.white,
-                        fontFamily: "Sora",
                         fontSize: 18,
                       ),
                     )
@@ -160,14 +163,14 @@ class _TransactionAddingViewState extends State<TransactionAddingView> {
             ),
             const SizedBox(height: 10),
             ListTile(
-              title: const Text("Home"),
+              title: const Text("Home", style: AppTypography.outfitRegular),
               leading: const Icon(Icons.home),
               onTap: () {
                 Navigator.pop(context);
               },
             ),
             ListTile(
-              title: const Text("Settings"),
+              title: const Text("Settings", style: AppTypography.outfitRegular),
               leading: const Icon(Icons.settings),
               onTap: () {
                 Navigator.pop(context);
@@ -175,7 +178,7 @@ class _TransactionAddingViewState extends State<TransactionAddingView> {
             ),
             const Spacer(),
             ListTile(
-              title: const Text("Logout"),
+              title: const Text("Logout", style: AppTypography.outfitRegular),
               leading: const Icon(Icons.logout),
               onTap: () async {
                 await loginViewModel.logout(context);
@@ -192,9 +195,12 @@ class _TransactionAddingViewState extends State<TransactionAddingView> {
               itemBuilder: (context, index) {
                 final transaction = transactions[index];
                 return ListTile(
-                  title: Text('${transaction.type}: ${transaction.amount}'),
-                  subtitle: Text('${transaction.date}'),
-                  trailing: Text(transaction.description),
+                  title: Text('${transaction.type}: ${transaction.amount}',
+                      style: AppTypography.outfitRegular),
+                  subtitle: Text('${transaction.date}',
+                      style: AppTypography.outfitLight),
+                  trailing: Text(transaction.description,
+                      style: AppTypography.outfitRegular),
                 );
               },
             ),
