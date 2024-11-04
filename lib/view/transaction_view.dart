@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:kadhabook/model/model.dart';
 import 'package:kadhabook/view/login_view.dart';
+import 'package:kadhabook/viewmodel/login_viewmodel.dart';
 import 'package:kadhabook/widgets/custom_button.dart';
+import 'package:provider/provider.dart';
 
 class TransactionAddingView extends StatefulWidget {
   final String userId;
@@ -98,7 +101,10 @@ class _TransactionAddingViewState extends State<TransactionAddingView> {
                   Navigator.of(context).pop();
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text("Please enter a valid amount")),
+                    SnackBar(
+                      content: Text("Please enter a valid amount"),
+                      backgroundColor: Colors.red,
+                    ),
                   );
                 }
               },
@@ -114,8 +120,70 @@ class _TransactionAddingViewState extends State<TransactionAddingView> {
 
   @override
   Widget build(BuildContext context) {
+    final loginViewModel = Provider.of<LoginViewModel>(context);
+
     return Scaffold(
       appBar: AppBar(title: const Text('Home')),
+      drawer: Drawer(
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        child: Column(
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
+                      radius: 30,
+                      backgroundColor: Colors.white,
+                      child: Icon(
+                        Icons.person,
+                        size: 40,
+                        color: HexColor("303050"),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      widget.userId,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontFamily: "Sora",
+                        fontSize: 18,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            ListTile(
+              title: const Text("Home"),
+              leading: const Icon(Icons.home),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: const Text("Settings"),
+              leading: const Icon(Icons.settings),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            const Spacer(),
+            ListTile(
+              title: const Text("Logout"),
+              leading: const Icon(Icons.logout),
+              onTap: () async {
+                await loginViewModel.logout(context);
+              },
+            ),
+          ],
+        ),
+      ),
       body: Column(
         children: [
           Expanded(
@@ -139,7 +207,7 @@ class _TransactionAddingViewState extends State<TransactionAddingView> {
                 CustomButton(
                   buttonName: "Add Cash In",
                   onTap: () => _showTransactionDialog("cash in"),
-                  buttonColor: Colors.blue,
+                  buttonColor: Colors.green,
                   height: 40,
                   width: 150,
                 ),
